@@ -3,3 +3,6 @@ helloapp:
 
 go-thanksgiving:
 	From http://code.google.com/p/go-thanksgiving/
+
+progginator: 
+	From http://proppy-go-ae.appspot.com
