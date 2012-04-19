@@ -1,0 +1,270 @@
+<!--{
+	"Title": "Go + App Engine",
+	"Template": true
+}-->
+      <article>
+        <h1>
+	
+	Go <img src="http://weekly.golang.org/doc/gopher/frontpage.png"  height="64px"> + App Engine <img src="images/appengine_final.png" height="64px"> = <img src="http://code.google.com/p/appengine-go/logo?cct=1325616189">
+        </h1>
+        <p>	 
+          Johan Euphrosine
+          <br>
+          March 15, 2012
+        </p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+     <article>
+	<h3>About Me</h3>
+	<p>
+	  <ul>
+	    <img class="photo" src="images/proppy.jpg">
+	    <li>Johan Euphrosine &lt;proppy&#64;google.com&gt;</li>
+	    <li>Google  <span class="swiss">Zurich</span></li>
+	    <li>Developer Programs Engineer</li>
+	    <li>Supporting App Engine <img src="images/appengine_final.png" height="24px"> Developer Community</li>
+	    <li><a href="http://profiles.google.com/proppy">profiles.google.com/proppy</a></li>
+	  </ul>
+	</p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+      
+      <article>
+        <h3>
+          App Engine
+        </h3>
+        <p>
+	App Engine allows you to scale your web application on Google Infrastructure
+        </p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article>
+        <h3>
+          Go Runtime
+        </h3>
+        <p>
+	<ul>
+		<li>Native code</li>
+		<li>Low footprint</li>
+		<li>Concurrency built in</li>
+	</ul>
+        </p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+      <article class="nobackground">
+        <h3>
+          Hello Gopher!
+        </h3>
+
+		{{code "/doc/presentations/progginator/gopher/hello.go" "/package/" "/STOP/"}}
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article>
+        <h3>
+          Hello App Engine!
+        </h3>
+		{{code "/doc/presentations/progginator/app.yaml" "/application/" "/_go_app/"}}
+		<pre>$ dev_appserver.py myapp/</pre>
+		<pre>$ appcfg.py update myapp/</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article>
+        <h3>
+          Demo
+        </h3>
+        <p>
+		<a href="/hello">Hello Gopher!</a>
+        </p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+    <article>
+        <h3>
+          Hello hackernews!
+        </h3>
+		{{code "/doc/presentations/progginator/gopher/hackernews.go" "/package/" "/STOP/"}}
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article class="nobackground">
+        <h3>
+        	Map XML to Go types
+        </h3>
+	
+		{{code "/doc/presentations/progginator/hn.xml"}}
+		{{code "/doc/presentations/progginator/gopher/feed.go" "/type HNFeed/" "/STOP/"}}
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+       <article class="nobackground">
+        <h3>
+        Decode
+        </h3>
+		{{code "/doc/presentations/progginator/gopher/hackernews.go" "/func hackernewsItems/" "/STOP/"}}
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+       <article class="nobackground">
+        <h3>
+        And Print
+        </h3>
+     
+		{{code "/doc/presentations/progginator/gopher/hackernews.go" "/func hackernews\\(/" "/STOP/"}}
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+     <article>
+        <h3>
+        Demo
+        </h3>
+	<p>
+		<a href="/hackernews">Hello Hacker News!</a>
+	</p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+      <article>
+        <h3>
+          Hello proggit!
+        </h3>
+      
+		{{code "/doc/presentations/progginator/gopher/proggit.go" "/package/" "/STOP/"}}
+ 	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article class="nobackground">
+        <h3>
+        	Map Json to Go types
+        </h3>
+   
+		<pre>
+{"data": { "children": [
+   {"data": { "title": ... , "url": ...}}, ...</pre>
+		{{code "/doc/presentations/progginator/gopher/feed.go" "/type RedditFeed/" "/STOP/"}}
+		{{code "/doc/presentations/progginator/gopher/feed.go" "/type Item/" "/STOP/"}}
+    	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+       <article class="nobackground">
+        <h3>
+        Decode
+        </h3>
+   
+		{{code "/doc/presentations/progginator/gopher/proggit.go" "/func proggitItems/" "/STOP/"}}
+    	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+       <article class="nobackground">
+        <h3>
+        And print
+        </h3>
+		{{code "/doc/presentations/progginator/gopher/proggit.go" "/func proggit/" "/STOP/"}}
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+    <article>
+        <h3>
+        Demo
+        </h3>
+	<p>
+		<a href="/proggit">Hello Proggit!</a>
+	</p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+  <article>
+        <h3>
+        Progginator!
+        </h3>
+		{{code "/doc/presentations/progginator/gopher/main.go" "/func progginator/" "/STOP/"}}
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+<article>
+	<h3>
+	Demo
+	</h3>
+	<p>
+		<a href="/progginator">Progginator!</a>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+	</p>
+<pre>
+2012-03-15 04:17:59.148 hackernews: 261.695ms
+2012-03-15 04:17:59.246 proggit: 97.961ms
+2012-03-15 04:17:59.246 progginator: 359.822ms
+</pre>
+</article>
+
+	<article class="nobackground">
+	<h3>
+	Make it concurrent
+	</h3>
+		{{code "/doc/presentations/progginator/gopher/main.go" "/func progginator_/" "/STOP/"}}
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+	</article>
+
+<article>
+	<h3>
+	Demo
+	</h3>
+	<p>
+		<a href="/progginator_">Progginator!</a>
+	</p>
+<pre>
+2012-03-15 04:18:03.804 proggit: 110.451ms
+2012-03-15 04:18:03.887 hackernews: 193.751ms
+2012-03-15 04:18:03.887 progginator_: 193.824ms
+</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+</article>
+
+
+      <article>
+        <h3>
+          Takeaways
+        </h3>
+	<ul>
+	<li>encoding/* package makes parsing fun again!</li>
+	<li>Go runtime is inherently concurrent</li>
+	<li>No need for async and sync API, thanks to goroutine & channel</li>
+	</ul>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+       </article>
+
+
+      <article>
+        <h3>
+          Homework
+        </h3>
+	<ul>
+    <li>Remove duplicate, sort by ranking</li>
+	<li>Make it pretty w/ templates and css</li>
+	<li>Fetch feed offline w/ Task Queue</li>
+	<li>Cache!</li>
+	<li>Go fork the messy code: <a href="http://code.google.com/p/progginator">code.google.com/p/progginator</a>
+	</ul>
+  	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+       </article>
+
+	<article>
+	<h3>
+	Thank you!
+	</h3>
+<pre>
+	<img src="http://code.google.com/p/appengine-go/logo?cct=1325616189" height="40px"> := "<a href='http://code.google.com/appengine/docs/go/'>code.google.com/appengine/docs/go/</a>"
+	<img src="http://weekly.golang.org/doc/gopher/frontpage.png"  height="40px"> := "<a href='http://golang.org'>golang.org</a>"
+	<img src="images/proppy.jpg" height="40px"> := "<a href='http://profiles.google.com/proppy'>profiles.google.com/proppy</a>"
+</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>

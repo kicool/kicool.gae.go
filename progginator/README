@@ -1,0 +1,5 @@
+Go + App Engine presentation
+
+progginator: shows how to use goroutine to fetch concurrently hackernews and proggit.
+
+To regenerate slides copy the content of this directory to $GOROOT/doc/presentations.

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Go + App Engine</title>
+
+    <script
+      src='http://html5slides.googlecode.com/svn/trunk/slides.js'></script>
+    <script>
+      addPrettify = function() {}
+    </script>
+  <style>
+    /* Your individual styles here, or just use inline styles if that’s
+       what you want. */
+     .swiss { font-weight: bold; background: #DD4B39; color: white;
+    border-radius: 5px; padding: 5px; }
+   
+    .photo {
+    position: absolute;
+    right: 100px;
+    top: 350px;
+    border-radius: 10px;
+    }  
+   a {
+    text-decoration: none;
+    }
+
+    .slides > article .selflink {
+    font-size: 24px;
+    display: block;
+    position: absolute;
+    left: 15px;
+    bottom: 40px;
+    }
+
+    .slides > article.nobackground .selflink {
+	display: none
+    }
+
+pre,
+code {
+	font-family: Menlo, monospace;
+	font-size: 14px;
+}
+pre {
+	line-height: 18px;
+}
+pre .comment {
+	color: #375EAB;
+}
+pre .highlight,
+pre .highlight-comment,
+pre .selection-highlight,
+pre .selection-highlight-comment {
+	background: #FFFF00;
+}
+pre .selection,
+pre .selection-comment {
+	background: #FF9632;
+}
+pre .ln {
+	color: #999;
+}
+
+    
+  </style>
+</head>
+<body style='display: none'>
+
+    <section class='slides layout-regular template-default'>
+	
+      <article>
+        <h1>
+	
+	Go <img src="http://weekly.golang.org/doc/gopher/frontpage.png"  height="64px"> + App Engine <img src="images/appengine_final.png" height="64px"> = <img src="http://code.google.com/p/appengine-go/logo?cct=1325616189">
+        </h1>
+        <p>	 
+          Johan Euphrosine
+          <br>
+          March 15, 2012
+        </p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+     <article>
+	<h3>About Me</h3>
+	<p>
+	  <ul>
+	    <img class="photo" src="images/proppy.jpg">
+	    <li>Johan Euphrosine &lt;proppy&#64;google.com&gt;</li>
+	    <li>Google  <span class="swiss">Zurich</span></li>
+	    <li>Developer Programs Engineer</li>
+	    <li>Supporting App Engine <img src="images/appengine_final.png" height="24px"> Developer Community</li>
+	    <li><a href="http://profiles.google.com/proppy">profiles.google.com/proppy</a></li>
+	  </ul>
+	</p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+      
+      <article>
+        <h3>
+          App Engine
+        </h3>
+        <p>
+	App Engine allows you to scale your web application on Google Infrastructure
+        </p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article>
+        <h3>
+          Go Runtime
+        </h3>
+        <p>
+	<ul>
+		<li>Native code</li>
+		<li>Low footprint</li>
+		<li>Concurrency built in</li>
+	</ul>
+        </p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+      <article class="nobackground">
+        <h3>
+          Hello Gopher!
+        </h3>
+
+		<pre><!--{{code "/doc/presentations/progginator/gopher/hello.go" `/package/` `/STOP/`}}
+-->package gopher
+
+import (
+    &#34;fmt&#34;
+    &#34;net/http&#34;
+)
+
+<span class="comment">// The init function is called when your application starts.</span>
+func init() {
+    <span class="comment">// Register a handle for /hello URLs.</span>
+    http.HandleFunc(&#34;/hello&#34;, hello)
+}
+
+<span class="comment">// hello is an HTTP handler that prints &#34;Hello Gopher!&#34;</span>
+func hello(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, &#34;Hello, Gopher!&#34;)
+}</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article>
+        <h3>
+          Hello App Engine!
+        </h3>
+		<pre><!--{{code "/doc/presentations/progginator/app.yaml" `/application/` `/_go_app/`}}
+-->application: gopher
+version: 1
+runtime: go
+api_version: go1beta
+
+handlers:
+- url: /images
+  static_dir: images
+- url: /doc
+  static_dir: doc
+- url: /.*
+  script: _go_app</pre>
+		<pre>$ dev_appserver.py myapp/</pre>
+		<pre>$ appcfg.py update myapp/</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article>
+        <h3>
+          Demo
+        </h3>
+        <p>
+		<a href="/hello">Hello Gopher!</a>
+        </p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+    <article>
+        <h3>
+          Hello hackernews!
+        </h3>
+		<pre><!--{{code "/doc/presentations/progginator/gopher/hackernews.go" `/package/` `/STOP/`}}
+-->package gopher
+
+import (
+    &#34;appengine&#34;
+    &#34;appengine/urlfetch&#34;
+    &#34;encoding/xml&#34;
+    &#34;fmt&#34;
+    &#34;net/http&#34;
+    &#34;time&#34;
+)
+
+func init() {
+    <span class="comment">// Register a handler for /hackernews URL.</span>
+    http.HandleFunc(&#34;/hackernews&#34;, hackernews)
+}</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article class="nobackground">
+        <h3>
+        	Map XML to Go types
+        </h3>
+	
+		<pre><!--{{code "/doc/presentations/progginator/hn.xml"}}
+-->&lt;rss version=&#34;2.0&#34;&gt;
+  &lt;channel&gt;
+    &lt;item&gt;
+      &lt;title /&gt;
+      &lt;link /&gt;
+...</pre>
+		<pre><!--{{code "/doc/presentations/progginator/gopher/feed.go" `/type HNFeed/` `/STOP/`}}
+-->type HNFeed struct {
+    Data HNFeedData `xml:&#34;channel&#34;`
+}
+
+type HNFeedData struct {
+    Items []Item `xml:&#34;item&#34;`
+}
+
+type Item struct {
+    Title string `xml:&#34;title&#34;`
+    Url   string `xml:&#34;link&#34;`
+}</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+       <article class="nobackground">
+        <h3>
+        Decode
+        </h3>
+		<pre><!--{{code "/doc/presentations/progginator/gopher/hackernews.go" `/func hackernewsItems/` `/STOP/`}}
+-->func hackernewsItems(c appengine.Context) []Item {
+    client := urlfetch.Client(c)
+    resp, err := client.Get(HNFeedUrl)
+    if err != nil {
+        c.Errorf(&#34;Error fetching %s: %s&#34;, HNFeedUrl, err.Error())
+        return []Item{}
+    }
+    defer resp.Body.Close()
+    decoder := xml.NewDecoder(resp.Body)
+    var feed *HNFeed
+    if err = decoder.Decode(&amp;feed); err != nil {
+        c.Errorf(&#34;Error decoding HNFeed: %s&#34;, err.Error())
+        return []Item{}
+    }
+    return feed.Data.Items
+}</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+       <article class="nobackground">
+        <h3>
+        And Print
+        </h3>
+     
+		<pre><!--{{code "/doc/presentations/progginator/gopher/hackernews.go" `/func hackernews\(/` `/STOP/`}}
+-->func hackernews(w http.ResponseWriter, r *http.Request) {
+    c := appengine.NewContext(r)
+    w.Header().Add(&#34;Content-Type&#34;, &#34;text/plain&#34;)
+    for _, item := range hackernewsItems(c) {
+        fmt.Fprintf(w, &#34;%s: %s\n&#34;, item.Title, item.Url)
+    }
+}</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+     <article>
+        <h3>
+        Demo
+        </h3>
+	<p>
+		<a href="/hackernews">Hello Hacker News!</a>
+	</p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+      <article>
+        <h3>
+          Hello proggit!
+        </h3>
+      
+		<pre><!--{{code "/doc/presentations/progginator/gopher/proggit.go" `/package/` `/STOP/`}}
+-->package gopher
+
+import (
+    &#34;appengine&#34;
+    &#34;appengine/urlfetch&#34;
+    &#34;encoding/json&#34;
+    &#34;fmt&#34;
+    &#34;net/http&#34;
+    &#34;time&#34;
+)
+
+func init() {
+    <span class="comment">// Register a handler for /proggit URL.</span>
+    http.HandleFunc(&#34;/proggit&#34;, proggit)
+}</pre>
+ 	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+      <article class="nobackground">
+        <h3>
+        	Map Json to Go types
+        </h3>
+   
+		<pre>
+{"data": { "children": [
+   {"data": { "title": ... , "url": ...}}, ...</pre>
+		<pre><!--{{code "/doc/presentations/progginator/gopher/feed.go" `/type RedditFeed/` `/STOP/`}}
+-->type RedditFeed struct {
+    Data RedditFeedData
+}
+
+type RedditFeedData struct {
+    Items []RedditFeedItem `json:&#34;children&#34;`
+}
+
+type RedditFeedItem struct {
+    Data Item
+}</pre>
+		<pre><!--{{code "/doc/presentations/progginator/gopher/feed.go" `/type Item/` `/STOP/`}}
+-->type Item struct {
+    Title string `xml:&#34;title&#34;`
+    Url   string `xml:&#34;link&#34;`
+}</pre>
+    	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+       <article class="nobackground">
+        <h3>
+        Decode
+        </h3>
+   
+		<pre><!--{{code "/doc/presentations/progginator/gopher/proggit.go" `/func proggitItems/` `/STOP/`}}
+-->func proggitItems(c appengine.Context) []Item {
+    client := urlfetch.Client(c)
+    resp, err := client.Get(ProggitFeedUrl)
+    if err != nil {
+        c.Errorf(&#34;Error fetching %s: %s&#34;, ProggitFeedUrl, err.Error())
+        return []Item{}
+    }
+    defer resp.Body.Close()
+    decoder := json.NewDecoder(resp.Body)
+    var feed *RedditFeed
+    if err = decoder.Decode(&amp;feed); err != nil {
+        c.Errorf(&#34;Error decoding RedditFeed: %s&#34;, err.Error())
+        return []Item{}
+    }
+    items := make([]Item, len(feed.Data.Items))
+    for i, item := range feed.Data.Items {
+        items[i] = item.Data
+    }
+    return items
+}</pre>
+    	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+
+       <article class="nobackground">
+        <h3>
+        And print
+        </h3>
+		<pre><!--{{code "/doc/presentations/progginator/gopher/proggit.go" `/func proggit/` `/STOP/`}}
+-->func proggit(w http.ResponseWriter, r *http.Request) {
+    c := appengine.NewContext(r)
+    w.Header().Add(&#34;Content-Type&#34;, &#34;text/plain&#34;)
+    for _, item := range proggitItems(c) {
+        fmt.Fprintf(w, &#34;%s: %s\n&#34;, item.Title, item.Url)
+    }
+}</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+    <article>
+        <h3>
+        Demo
+        </h3>
+	<p>
+		<a href="/proggit">Hello Proggit!</a>
+	</p>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+  <article>
+        <h3>
+        Progginator!
+        </h3>
+		<pre><!--{{code "/doc/presentations/progginator/gopher/main.go" `/func progginator/` `/STOP/`}}
+-->func progginator(w http.ResponseWriter, r *http.Request) {
+    c := appengine.NewContext(r)
+    hnItems := hackernewsItems(c)
+    pgItems := proggitItems(c)
+    w.Header().Add(&#34;Content-Type&#34;, &#34;text/plain&#34;)
+    for _, item := range hnItems {
+        fmt.Fprintf(w, &#34;%s: %s\n&#34;, item.Title, item.Url)
+    }
+    for _, item := range pgItems {
+        fmt.Fprintf(w, &#34;%s: %s\n&#34;, item.Title, item.Url)
+    }
+}</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+
+<article>
+	<h3>
+	Demo
+	</h3>
+	<p>
+		<a href="/progginator">Progginator!</a>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+	</p>
+<pre>
+2012-03-15 04:17:59.148 hackernews: 261.695ms
+2012-03-15 04:17:59.246 proggit: 97.961ms
+2012-03-15 04:17:59.246 progginator: 359.822ms
+</pre>
+</article>
+
+	<article class="nobackground">
+	<h3>
+	Make it concurrent
+	</h3>
+		<pre><!--{{code "/doc/presentations/progginator/gopher/main.go" `/func progginator_/` `/STOP/`}}
+-->func progginator_(w http.ResponseWriter, r *http.Request) {
+    c := appengine.NewContext(r)
+    results := make(chan []Item)
+    go func() {
+        results &lt;- hackernewsItems(c)
+    }()
+    go func() {
+        results &lt;- proggitItems(c)
+    }()
+    w.Header().Add(&#34;Content-Type&#34;, &#34;text/plain&#34;)
+    for i := 0; i &lt; 2; i++ {
+        items := &lt;-results
+        for _, item := range items {
+            fmt.Fprintf(w, &#34;%s: %s\n&#34;, item.Title, item.Url)
+        }
+    }
+}</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+	</article>
+
+<article>
+	<h3>
+	Demo
+	</h3>
+	<p>
+		<a href="/progginator_">Progginator!</a>
+	</p>
+<pre>
+2012-03-15 04:18:03.804 proggit: 110.451ms
+2012-03-15 04:18:03.887 hackernews: 193.751ms
+2012-03-15 04:18:03.887 progginator_: 193.824ms
+</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+</article>
+
+
+      <article>
+        <h3>
+          Takeaways
+        </h3>
+	<ul>
+	<li>encoding/* package makes parsing fun again!</li>
+	<li>Go runtime is inherently concurrent</li>
+	<li>No need for async and sync API, thanks to goroutine & channel</li>
+	</ul>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+       </article>
+
+
+      <article>
+        <h3>
+          Homework
+        </h3>
+	<ul>
+    <li>Remove duplicate, sort by ranking</li>
+	<li>Make it pretty w/ templates and css</li>
+	<li>Fetch feed offline w/ Task Queue</li>
+	<li>Cache!</li>
+	<li>Go fork the messy code: <a href="http://code.google.com/p/progginator">code.google.com/p/progginator</a>
+	</ul>
+  	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+       </article>
+
+	<article>
+	<h3>
+	Thank you!
+	</h3>
+<pre>
+	<img src="http://code.google.com/p/appengine-go/logo?cct=1325616189" height="40px"> := "<a href='http://code.google.com/appengine/docs/go/'>code.google.com/appengine/docs/go/</a>"
+	<img src="http://weekly.golang.org/doc/gopher/frontpage.png"  height="40px"> := "<a href='http://golang.org'>golang.org</a>"
+	<img src="images/proppy.jpg" height="40px"> := "<a href='http://profiles.google.com/proppy'>profiles.google.com/proppy</a>"
+</pre>
+	<a class="selflink" href="http://proppy-go-ae.appspot.com/">proppy-go-ae.appspot.com</a>
+      </article>
+  </section>
+</body>
+</html>
+
